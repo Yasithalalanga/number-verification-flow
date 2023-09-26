@@ -1,7 +1,7 @@
 import ballerina/http;
 import ballerina/io;
 
-final http:Client enterpriseBackendClient = check new("localhost:9093");
+final http:Client enterpriseBackendClient = check new ("localhost:9093");
 
 public function main() returns error? {
     // Initiate request
@@ -13,11 +13,11 @@ public function main() returns error? {
     io:println(response);
 
     // Get network status
-    http:Client supplierBMOClient = check new(response.url);
+    http:Client supplierBMOClient = check new (response.url);
     NetworkState networkState = check supplierBMOClient->/;
     io:println(networkState);
 
     // Verify number
-    NumberVerificationResponse verificationResponse = check enterpriseBackendClient->/'check\-result.post(req);
+    NumberVerification verificationResponse = check enterpriseBackendClient->/'check\-result.post(req);
     io:println(verificationResponse);
 }

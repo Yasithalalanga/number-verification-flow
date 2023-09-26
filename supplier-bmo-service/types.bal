@@ -13,3 +13,7 @@ type NetworkState record {|
     string code;
     string msisdn;
 |};
+
+public type NumberVerification record {
+    boolean devicePhoneNumberVerified;
+};

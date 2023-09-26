@@ -20,9 +20,9 @@ public type ServiceUnavailable record {|
     ErrorInfo body;
 |};
 
-public type OkNumberVerificationMatchResponse record {|
+public type OkNumberVerification record {|
     *http:Ok;
-    NumberVerificationResponse body;
+    NumberVerification body;
 |};
 
 public type BadRequest record {|
@@ -35,7 +35,7 @@ public type Forbidden record {|
     ErrorInfo body;
 |};
 
-public type NumberVerificationResponse record {
+public type NumberVerification record {
     DevicePhoneNumberVerified devicePhoneNumberVerified;
 };
 
