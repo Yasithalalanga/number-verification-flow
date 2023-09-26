@@ -1,10 +1,8 @@
 import ballerina/http;
 
-configurable int port = 9091;
-
 configurable string supplierBMOServiceURL = "localhost:9090";
 
-service /number\-verification/v0 on new http:Listener(port) {
+service /number\-verification/v0 on new http:Listener(9091) {
 
     isolated resource function post init\-request(NumberVerificationRequest payload) returns NetworkVerificationResponse|InternalServerError {
         do {

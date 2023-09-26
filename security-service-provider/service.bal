@@ -1,11 +1,10 @@
 import ballerina/http;
 
-configurable int port = 9092;
 configurable string bridgeRegionalPlatformUrl = "localhost:9091/number-verification/v0";
 
 final http:Client bridgeRegionalPlatformClient = check new (bridgeRegionalPlatformUrl);
 
-service / on new http:Listener(port) {
+service / on new http:Listener(9092) {
 
     isolated resource function post init\-request(NumberVerificationRequest payload)
             returns NetworkVerification|error {

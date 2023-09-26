@@ -1,11 +1,10 @@
 import ballerina/http;
 
-configurable int port = 9093;
 configurable string securityServiceUrl = "localhost:9092";
 
 final http:Client securityServiceProvider = check new (securityServiceUrl);
 
-service / on new http:Listener(port) {
+service / on new http:Listener(9093) {
 
     resource function post initiate\-request(NumberVerificationRequest payload)
             returns NetworkVerification|error {

@@ -1,8 +1,6 @@
 import ballerina/http;
 
-configurable int port = 9090;
-
-service / on new http:Listener(port) {
+service / on new http:Listener(9090) {
 
     resource function post verify(NumberVerificationRequest payload) returns NetworkVerification {
         return {
