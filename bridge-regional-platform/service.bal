@@ -1,11 +1,10 @@
 import ballerina/http;
 
 configurable int port = 9091;
-listener http:Listener bridgeReginalPlatformEP = new (port);
 
 configurable string supplierBMOServiceURL = "localhost:9090";
 
-service /number\-verification/v0 on bridgeReginalPlatformEP {
+service /number\-verification/v0 on new http:Listener(port) {
 
     isolated resource function post init\-request(NumberVerificationRequest payload) returns NetworkVerificationResponse|InternalServerError {
         do {
