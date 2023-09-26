@@ -1,15 +1,18 @@
 import ballerina/http;
 
-listener http:Listener bridgeReginalPlatformEP = new (9091);
+configurable int port = 9091;
+listener http:Listener bridgeReginalPlatformEP = new (port);
+
+configurable string supplierBMOServiceURL = "localhost:9090";
 
 service /number\-verification/v0 on bridgeReginalPlatformEP {
 
     isolated resource function post init\-request(NumberVerificationRequest payload) returns NetworkVerificationResponse|InternalServerError {
         do {
-            http:Client supplierBMOClient = check new ("localhost:9090");
-            NetworkVerification networkVerification = check supplierBMOClient->/verify.post(payload);
+            http:Client supplierBMOClient = check new (supplierBMOServiceURL);
+            NetworkVerification response = check supplierBMOClient->/verify.post(payload);
             return {
-                body: networkVerification
+                body: response
             };
         } on fail error err {
             return {
@@ -23,7 +26,7 @@ service /number\-verification/v0 on bridgeReginalPlatformEP {
     }
 
     isolated resource function post verify(@http:Header string? x\-correlator, NumberVerificationRequest payload) returns
-            OkNumberVerificationMatchResponse|BadRequest|Unauthorized|Forbidden|InternalServerError|ServiceUnavailable|GatewayTimeout {
+            OkNumberVerification|BadRequest|Unauthorized|Forbidden|InternalServerError|ServiceUnavailable|GatewayTimeout {
 
         do {
             check validateNumberVerificationRequest(payload);
@@ -36,11 +39,21 @@ service /number\-verification/v0 on bridgeReginalPlatformEP {
                 }
             };
         }
-        return {
-            body: {
-                devicePhoneNumberVerified: true
-            }
-        };
+        do {
+            http:Client supplierBMOClient = check new (supplierBMOServiceURL);
+            NumberVerification response = check supplierBMOClient->/verify\-number.post(payload);
+            return {
+                body: response
+            };
+        } on fail error err {
+            return <InternalServerError>{
+                body: {
+                    status: http:STATUS_INTERNAL_SERVER_ERROR,
+                    code: "NUMBER_VERIFICATION.INTERNAL_SERVER_ERROR",
+                    message: err.message()
+                }
+            };
+        }
     }
 
 }

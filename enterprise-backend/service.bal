@@ -1,8 +1,11 @@
 import ballerina/http;
 
-listener http:Listener enterpriseBackend = new (9093);
+configurable int port = 9093;
+configurable string securityServiceUrl = "localhost:9092";
 
-final http:Client securityServiceProvider = check new ("localhost:9092");
+listener http:Listener enterpriseBackend = new (port);
+
+final http:Client securityServiceProvider = check new (securityServiceUrl);
 
 service / on enterpriseBackend {
 
@@ -14,9 +17,9 @@ service / on enterpriseBackend {
     }
 
     resource function post 'check\-result(NumberVerificationRequest payload)
-            returns NumberVerificationResponse|error {
+            returns NumberVerification|error {
 
-        NumberVerificationResponse|error response = securityServiceProvider->/verify.post(payload);
+        NumberVerification|error response = securityServiceProvider->/verify.post(payload);
         return response;
     }
 }

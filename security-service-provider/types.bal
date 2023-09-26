@@ -1,4 +1,4 @@
-public type NumberVerificationResponse record {
+public type NumberVerification record {
     DevicePhoneNumberVerified devicePhoneNumberVerified;
 };
 
