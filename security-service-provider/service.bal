@@ -1,8 +1,17 @@
 import ballerina/http;
 
-configurable string bridgeRegionalPlatformUrl = "localhost:9091/number-verification/v0";
+configurable string bridgeRegionalPlatformUrl = ?;
+configurable string tokenUrl = ?;
+configurable string clientId = ?;
+configurable string clientSecret = ?;
 
-final http:Client bridgeRegionalPlatformClient = check new (bridgeRegionalPlatformUrl);
+final http:Client bridgeRegionalPlatformClient = check new (bridgeRegionalPlatformUrl,
+    auth = {
+        tokenUrl: tokenUrl,
+        clientId: clientId,
+        clientSecret: clientSecret
+    }
+);
 
 service / on new http:Listener(9092) {
 

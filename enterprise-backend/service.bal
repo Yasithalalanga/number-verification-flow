@@ -1,8 +1,17 @@
 import ballerina/http;
 
-configurable string securityServiceUrl = "localhost:9092";
+configurable string securityServiceUrl = ?;
+configurable string tokenUrl = ?;
+configurable string clientId = ?;
+configurable string clientSecret = ?;
 
-final http:Client securityServiceProvider = check new (securityServiceUrl);
+final http:Client securityServiceProvider = check new (securityServiceUrl,
+    auth = {
+        tokenUrl: tokenUrl,
+        clientId: clientId,
+        clientSecret: clientSecret
+    }
+);
 
 service / on new http:Listener(9093) {
 

@@ -1,8 +1,31 @@
 import ballerina/http;
 import ballerina/io;
 
-final http:Client enterpriseBackendClient = check new ("localhost:9093");
-final http:Client supplierBMOClient = check new ("localhost:9090");
+configurable string enterpriseBEUrl = ?;
+configurable string enterpriseBETokenUrl = ?;
+configurable string enterpriseBEClientId = ?;
+configurable string enterpriseBEClientSecret = ?;
+
+final http:Client enterpriseBackendClient = check new (enterpriseBEUrl,
+    auth = {
+        tokenUrl: enterpriseBETokenUrl,
+        clientId: enterpriseBEClientId,
+        clientSecret: enterpriseBEClientSecret
+    }
+);
+
+configurable string supplierBMOUrl = ?;
+configurable string supplierBMOTokenUrl = ?;
+configurable string supplierBMOClientId = ?;
+configurable string supplierBMOClientSecret = ?;
+
+final http:Client supplierBMOClient = check new (supplierBMOUrl,
+    auth = {
+        tokenUrl: enterpriseBETokenUrl,
+        clientId: enterpriseBEClientId,
+        clientSecret: enterpriseBEClientSecret
+    }
+);
 
 public function main() returns error? {
     // Initiate request

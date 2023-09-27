@@ -1,9 +1,9 @@
 import ballerina/http;
 
-configurable string supplierBMOServiceURL = "localhost:9090";
-configurable string tokenUrl = "https://localhost:9445/oauth2/token";
-configurable string clientId = "FlfJYKBD2c925h4lkycqNZlC2l4a";
-configurable string clientSecret = "PJz0UhTJMrHOo68QQNpvnqAY_3Aa";
+configurable string supplierBMOServiceURL = ?;
+configurable string tokenUrl = ?;
+configurable string clientId = ?;
+configurable string clientSecret = ?;
 
 service /number\-verification/v0 on new http:Listener(9091) {
 
@@ -13,8 +13,7 @@ service /number\-verification/v0 on new http:Listener(9091) {
                 auth = {
                     tokenUrl: tokenUrl,
                     clientId: clientId,
-                    clientSecret: clientSecret,
-                    scopes: "admin"
+                    clientSecret: clientSecret
                 }
             );
             NetworkVerification response = check supplierBMOClient->/verify.post(payload);
@@ -51,8 +50,7 @@ service /number\-verification/v0 on new http:Listener(9091) {
                 auth = {
                     tokenUrl: tokenUrl,
                     clientId: clientId,
-                    clientSecret: clientSecret,
-                    scopes: "admin"
+                    clientSecret: clientSecret
                 }
             );
             NumberVerification response = check supplierBMOClient->/verify\-number.post(payload);
