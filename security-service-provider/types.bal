@@ -1,8 +1,6 @@
 public type NumberVerification record {
-    DevicePhoneNumberVerified devicePhoneNumberVerified;
+    boolean devicePhoneNumberVerified;
 };
-
-public type DevicePhoneNumberVerified boolean;
 
 public type NumberVerificationRequest record {
     string phoneNumber?;
