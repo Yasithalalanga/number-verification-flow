@@ -38,5 +38,10 @@ public type NetworkVerificationResponse record {|
 public type NetworkVerification record {|
     string url;
     string sessionId?;
+    string token?;
 |};
 
+public type NetworkVerificationBody record {|
+    string url;
+    string sessionId?;
+|};

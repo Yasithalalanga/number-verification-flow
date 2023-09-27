@@ -9,7 +9,7 @@ service / on new http:Listener(9090) {
         };
     }
 
-    resource function get verifications/[string id](@http:Header string? x\-operator) returns NetworkState {
+    resource function get verifications/[string id](@http:Header {name: "x-operator"} string? operator) returns NetworkState {
         return {
             state: "verified",
             code: "1234",
@@ -17,7 +17,7 @@ service / on new http:Listener(9090) {
         };
     }
 
-    resource function post verify\-number(NumberVerificationRequest payload) returns NumberVerification {
+    resource function post verifyNumber(NumberVerificationRequest payload) returns NumberVerification {
         return {
             devicePhoneNumberVerified: true
         };

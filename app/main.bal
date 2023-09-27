@@ -33,7 +33,7 @@ public function main() returns error? {
         phoneNumber: "1234567890"
     };
 
-    NetworkVerification response = check enterpriseBackendClient->/initiate\-request.post(req);
+    NetworkVerification response = check enterpriseBackendClient->/initiateRequest.post(req);
     io:println(response);
 
     // Get network status
@@ -41,6 +41,6 @@ public function main() returns error? {
     io:println(networkState);
 
     // Verify number
-    NumberVerification verificationResponse = check enterpriseBackendClient->/'check\-result.post(req);
+    NumberVerification verificationResponse = check enterpriseBackendClient->/checkResult.post(req);
     io:println(verificationResponse);
 }
