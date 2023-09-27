@@ -33,7 +33,7 @@ service /number\-verification/v0 on new http:Listener(9091) {
     }
 
     isolated resource function post verify(@http:Header string? x\-correlator, NumberVerificationRequest payload) returns
-            OkNumberVerification|BadRequest|Unauthorized|Forbidden|InternalServerError|ServiceUnavailable|GatewayTimeout {
+            OkNumberVerification|BadRequest|InternalServerError {
 
         do {
             check validateNumberVerificationRequest(payload);
