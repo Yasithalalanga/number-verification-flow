@@ -22,7 +22,7 @@ service / on new http:Listener(9093) {
         return response;
     }
 
-    resource function post 'checkResult(NumberVerificationRequest payload)
+    resource function post checkResult(NumberVerificationRequest payload)
             returns NumberVerification|error {
 
         NumberVerification|error response = securityServiceProvider->/verify.post(payload);

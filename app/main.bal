@@ -41,6 +41,6 @@ public function main() returns error? {
     io:println(networkState);
 
     // Verify number
-    NumberVerification verificationResponse = check enterpriseBackendClient->/'checkResult.post(req);
+    NumberVerification verificationResponse = check enterpriseBackendClient->/checkResult.post(req);
     io:println(verificationResponse);
 }
