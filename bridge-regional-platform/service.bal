@@ -1,10 +1,15 @@
 import ballerina/http;
 
+# The URL of the supplier BMO service
 configurable string supplierBMOServiceURL = ?;
+# The URL of the oauth2 token endpoint of the supplier BMO service
 configurable string tokenUrl = ?;
+# The oauth2 client id of the supplier BMO service
 configurable string clientId = ?;
+# The oauth2 client secret of the supplier BMO service
 configurable string clientSecret = ?;
 
+# The client to connect to the supplier BMO service
 final http:Client supplierBMOClient = check new (supplierBMOServiceURL,
     auth = {
         tokenUrl: tokenUrl,
@@ -13,9 +18,16 @@ final http:Client supplierBMOClient = check new (supplierBMOServiceURL,
     }
 );
 
+# Bridge Regional Platform Service
 service /number\-verification/v0 on new http:Listener(9091) {
 
-    isolated resource function post initRequest(NumberVerificationRequest payload) returns NetworkVerificationResponse|InternalServerError {
+    # Handles the phone number initiation request
+    # 
+    # + payload - number verification request with phone number
+    # + return - network verification with verification url and optional sessionId and Internal 
+    # Server Error when the verification request fails
+    resource function post initRequest(NumberVerificationRequest payload) returns NetworkVerificationResponse|InternalServerError {
+
         do {
             NetworkVerification response = check supplierBMOClient->/verify.post(payload);
             return {
@@ -32,7 +44,13 @@ service /number\-verification/v0 on new http:Listener(9091) {
         }
     }
 
-    isolated resource function post verify(@http:Header {name: "x-correlator"} string? correlator, NumberVerificationRequest payload) returns
+    # Verifies the phone number
+    # 
+    # + payload - number verification request with phone number
+    # + correlator - optional correlator header
+    # + return - number verification with verification status. If the verification request is incompatible,
+    # then a Bad Request is returned. If the verification request fails, then an Internal Server Error is returned
+    resource function post verify(@http:Header {name: "x-correlator"} string? correlator, NumberVerificationRequest payload) returns
             OkNumberVerification|BadRequest|InternalServerError {
 
         do {
