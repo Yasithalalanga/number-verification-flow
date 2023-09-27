@@ -1,15 +1,21 @@
 import ballerina/http;
 
-configurable int port = 9091;
-listener http:Listener bridgeReginalPlatformEP = new (port);
+configurable string supplierBMOServiceURL = ?;
+configurable string tokenUrl = ?;
+configurable string clientId = ?;
+configurable string clientSecret = ?;
 
-configurable string supplierBMOServiceURL = "localhost:9090";
-
-service /number\-verification/v0 on bridgeReginalPlatformEP {
+service /number\-verification/v0 on new http:Listener(9091) {
 
     isolated resource function post init\-request(NumberVerificationRequest payload) returns NetworkVerificationResponse|InternalServerError {
         do {
-            http:Client supplierBMOClient = check new (supplierBMOServiceURL);
+            http:Client supplierBMOClient = check new (supplierBMOServiceURL,
+                auth = {
+                    tokenUrl: tokenUrl,
+                    clientId: clientId,
+                    clientSecret: clientSecret
+                }
+            );
             NetworkVerification response = check supplierBMOClient->/verify.post(payload);
             return {
                 body: response
@@ -26,7 +32,7 @@ service /number\-verification/v0 on bridgeReginalPlatformEP {
     }
 
     isolated resource function post verify(@http:Header string? x\-correlator, NumberVerificationRequest payload) returns
-            OkNumberVerification|BadRequest|Unauthorized|Forbidden|InternalServerError|ServiceUnavailable|GatewayTimeout {
+            OkNumberVerification|BadRequest|InternalServerError {
 
         do {
             check validateNumberVerificationRequest(payload);
@@ -40,7 +46,13 @@ service /number\-verification/v0 on bridgeReginalPlatformEP {
             };
         }
         do {
-            http:Client supplierBMOClient = check new (supplierBMOServiceURL);
+            http:Client supplierBMOClient = check new (supplierBMOServiceURL,
+                auth = {
+                    tokenUrl: tokenUrl,
+                    clientId: clientId,
+                    clientSecret: clientSecret
+                }
+            );
             NumberVerification response = check supplierBMOClient->/verify\-number.post(payload);
             return {
                 body: response

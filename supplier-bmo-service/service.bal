@@ -1,15 +1,10 @@
 import ballerina/http;
 
-configurable int port = 9090;
-configurable string hostName = "localhost";
-
-listener http:Listener supplierBMOServiceEP = new (port, host = hostName);
-
-service on supplierBMOServiceEP {
+service / on new http:Listener(9090) {
 
     resource function post verify(NumberVerificationRequest payload) returns NetworkVerification {
         return {
-            url: string `${supplierBMOServiceEP.getConfig().host}:${supplierBMOServiceEP.getPort()}/verifications/123`,
+            url: "/verifications/123",
             sessionId: "abc123"
         };
     }

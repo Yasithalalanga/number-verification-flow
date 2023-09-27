@@ -1,13 +1,19 @@
 import ballerina/http;
 
-configurable int port = 9092;
-configurable string bridgeRegionalPlatformUrl = "localhost:9091/number-verification/v0";
+configurable string bridgeRegionalPlatformUrl = ?;
+configurable string tokenUrl = ?;
+configurable string clientId = ?;
+configurable string clientSecret = ?;
 
-listener http:Listener securityServiceProvideEP = new (port);
+final http:Client bridgeRegionalPlatformClient = check new (bridgeRegionalPlatformUrl,
+    auth = {
+        tokenUrl: tokenUrl,
+        clientId: clientId,
+        clientSecret: clientSecret
+    }
+);
 
-final http:Client bridgeRegionalPlatformClient = check new (bridgeRegionalPlatformUrl);
-
-service / on securityServiceProvideEP {
+service / on new http:Listener(9092) {
 
     isolated resource function post init\-request(NumberVerificationRequest payload)
             returns NetworkVerification|error {

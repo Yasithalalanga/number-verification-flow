@@ -5,21 +5,6 @@ public type InternalServerError record {|
     ErrorInfo body;
 |};
 
-public type Unauthorized record {|
-    *http:Unauthorized;
-    ErrorInfo body;
-|};
-
-public type GatewayTimeout record {|
-    *http:GatewayTimeout;
-    ErrorInfo body;
-|};
-
-public type ServiceUnavailable record {|
-    *http:ServiceUnavailable;
-    ErrorInfo body;
-|};
-
 public type OkNumberVerification record {|
     *http:Ok;
     NumberVerification body;
@@ -30,13 +15,8 @@ public type BadRequest record {|
     ErrorInfo body;
 |};
 
-public type Forbidden record {|
-    *http:Forbidden;
-    ErrorInfo body;
-|};
-
 public type NumberVerification record {
-    DevicePhoneNumberVerified devicePhoneNumberVerified;
+    boolean devicePhoneNumberVerified;
 };
 
 public type ErrorInfo record {
@@ -44,8 +24,6 @@ public type ErrorInfo record {
     string code;
     string message;
 };
-
-public type DevicePhoneNumberVerified boolean;
 
 public type NumberVerificationRequest record {
     string phoneNumber?;

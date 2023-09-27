@@ -1,13 +1,19 @@
 import ballerina/http;
 
-configurable int port = 9093;
-configurable string securityServiceUrl = "localhost:9092";
+configurable string securityServiceUrl = ?;
+configurable string tokenUrl = ?;
+configurable string clientId = ?;
+configurable string clientSecret = ?;
 
-listener http:Listener enterpriseBackend = new (port);
+final http:Client securityServiceProvider = check new (securityServiceUrl,
+    auth = {
+        tokenUrl: tokenUrl,
+        clientId: clientId,
+        clientSecret: clientSecret
+    }
+);
 
-final http:Client securityServiceProvider = check new (securityServiceUrl);
-
-service / on enterpriseBackend {
+service / on new http:Listener(9093) {
 
     resource function post initiate\-request(NumberVerificationRequest payload)
             returns NetworkVerification|error {
