@@ -21,9 +21,9 @@ configurable string supplierBMOClientSecret = ?;
 
 final http:Client supplierBMOClient = check new (supplierBMOUrl,
     auth = {
-        tokenUrl: enterpriseBETokenUrl,
-        clientId: enterpriseBEClientId,
-        clientSecret: enterpriseBEClientSecret
+        tokenUrl: supplierBMOTokenUrl,
+        clientId: supplierBMOClientId,
+        clientSecret: supplierBMOClientSecret
     }
 );
 
