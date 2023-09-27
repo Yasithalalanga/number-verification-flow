@@ -15,14 +15,14 @@ final http:Client securityServiceProvider = check new (securityServiceUrl,
 
 service / on new http:Listener(9093) {
 
-    resource function post initiate\-request(NumberVerificationRequest payload)
+    resource function post initiateRequest(NumberVerificationRequest payload)
             returns NetworkVerification|error {
 
-        NetworkVerification|error response = securityServiceProvider->/init\-request.post(payload);
+        NetworkVerification|error response = securityServiceProvider->/initRequest.post(payload);
         return response;
     }
 
-    resource function post 'check\-result(NumberVerificationRequest payload)
+    resource function post 'checkResult(NumberVerificationRequest payload)
             returns NumberVerification|error {
 
         NumberVerification|error response = securityServiceProvider->/verify.post(payload);

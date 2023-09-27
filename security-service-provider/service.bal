@@ -15,19 +15,19 @@ final http:Client bridgeRegionalPlatformClient = check new (bridgeRegionalPlatfo
 
 service / on new http:Listener(9092) {
 
-    isolated resource function post init\-request(NumberVerificationRequest payload)
+    isolated resource function post initRequest(NumberVerificationRequest payload)
             returns NetworkVerification|error {
 
-        NetworkVerification|error response = bridgeRegionalPlatformClient->/init\-request.post(payload);
+        NetworkVerification|error response = bridgeRegionalPlatformClient->/initRequest.post(payload);
         return response;
     }
 
-    isolated resource function post verify(NumberVerificationRequest payload, @http:Header string? x\-correlator)
+    isolated resource function post verify(NumberVerificationRequest payload, @http:Header {name: "x-correlator"} string? correlator)
             returns NumberVerification|error {
 
         map<string|string[]> headers = {};
-        if x\-correlator is string {
-            headers["x-correlator"] = [x\-correlator];
+        if correlator is string {
+            headers["x-correlator"] = [correlator];
         }
         NumberVerification|error response = bridgeRegionalPlatformClient->/verify.post(payload, headers);
         return response;
