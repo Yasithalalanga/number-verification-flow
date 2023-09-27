@@ -10,6 +10,10 @@ configurable string clientId = ?;
 configurable string clientSecret = ?;
 
 # The client to connect to the security service provide service
+@display {
+    label: "security-service-provider",
+    id: "security-service-provider-000"
+}
 final http:Client securityServiceProvider = check new (securityServiceUrl,
     auth = {
         tokenUrl: tokenUrl,
@@ -19,6 +23,9 @@ final http:Client securityServiceProvider = check new (securityServiceUrl,
 );
 
 # Enterprise Backend Service
+@display {
+    label: "enterprise-backend"
+}
 service / on new http:Listener(9093) {
 
     # Handles the phone number initiation request

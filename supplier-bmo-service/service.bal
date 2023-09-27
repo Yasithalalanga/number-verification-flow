@@ -1,6 +1,10 @@
 import ballerina/http;
 
 # Supplier BMO Service for Number Verification
+@display {
+    label: "supplier BMO service",
+    id: "supplier-bmo-service-000"
+}
 service / on new http:Listener(9090) {
 
     # Returns the network verification url for the given number

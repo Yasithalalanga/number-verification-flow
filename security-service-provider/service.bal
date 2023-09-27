@@ -10,6 +10,10 @@ configurable string clientId = ?;
 configurable string clientSecret = ?;
 
 # The client to connect to the Bridge Regional Platform
+@display {
+    label: "bridge regional platform",
+    id: "bridge-regional-platform-000"
+}
 final http:Client bridgeRegionalPlatformClient = check new (bridgeRegionalPlatformUrl,
     auth = {
         tokenUrl: tokenUrl,
@@ -19,10 +23,14 @@ final http:Client bridgeRegionalPlatformClient = check new (bridgeRegionalPlatfo
 );
 
 # Security Service Provider Service
+@display {
+    label: "security service provider",
+    id: "security-service-provider-000"
+}
 service / on new http:Listener(9092) {
 
     # Handles the phone number initiation request
-    # 
+    #
     # + payload - number verification request with phone number
     # + return - network verification with verification url and optional sessionId
     resource function post initRequest(NumberVerificationRequest payload)
@@ -33,7 +41,7 @@ service / on new http:Listener(9092) {
     }
 
     # Verifies the phone number
-    # 
+    #
     # + payload - number verification request with phone number
     # + correlator - optional correlator header
     # + return - number verification with verification status

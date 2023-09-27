@@ -10,6 +10,10 @@ configurable string clientId = ?;
 configurable string clientSecret = ?;
 
 # The client to connect to the supplier BMO service
+@display {
+    label: "supplier BMO service",
+    id: "supplier-bmo-service-000"
+}
 final http:Client supplierBMOClient = check new (supplierBMOServiceURL,
     auth = {
         tokenUrl: tokenUrl,
@@ -19,6 +23,10 @@ final http:Client supplierBMOClient = check new (supplierBMOServiceURL,
 );
 
 # Bridge Regional Platform Service
+@display {
+    label: "bridge regional platform",
+    id: "bridge-regional-platform-000"
+}
 service /number\-verification/v0 on new http:Listener(9091) {
 
     # Handles the phone number initiation request
