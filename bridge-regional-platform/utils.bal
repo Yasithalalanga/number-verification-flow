@@ -7,3 +7,8 @@ public isolated function validateNumberVerificationRequest(NumberVerificationReq
         return error("Request body should have phoneNumber or hashedPhoneNumber");
     }
 }
+
+function transform(NetworkVerification networkVerification) returns NetworkVerificationBody => {
+    url: networkVerification.url,
+    sessionId: networkVerification.sessionId ?: networkVerification.token
+};

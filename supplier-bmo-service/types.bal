@@ -6,6 +6,7 @@ public type NumberVerificationRequest record {
 type NetworkVerification record {|
     string url;
     string sessionId?;
+    string token?;
 |};
 
 type NetworkState record {|
