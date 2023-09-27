@@ -2,9 +2,11 @@ import ballerina/http;
 
 service / on new http:Listener(9090) {
 
-    resource function post verify(NumberVerificationRequest payload) returns NetworkVerification {
+    resource function post verify(http:Request req, NumberVerificationRequest payload) returns NetworkVerification {
+        string|error hostHeader = req.getHeader("host");
+        string host = hostHeader is string ? hostHeader : "localhost:9090";
         return {
-            url: "/verifications/123",
+            url: host + "/verifications/123",
             sessionId: "abc123"
         };
     }
