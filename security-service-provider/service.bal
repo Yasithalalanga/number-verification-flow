@@ -1,3 +1,4 @@
+import ballerina/log;
 import ballerina/http;
 
 # The URL of the Bridge Regional Platform
@@ -35,7 +36,7 @@ service / on new http:Listener(9092) {
     # + return - network verification with verification url and optional sessionId
     resource function post initRequest(NumberVerificationRequest payload)
             returns NetworkVerification|error {
-
+        log:printInfo("received initiation request", payload = payload);
         NetworkVerification|error response = bridgeRegionalPlatformClient->/initRequest.post(payload);
         return response;
     }
@@ -47,7 +48,7 @@ service / on new http:Listener(9092) {
     # + return - number verification with verification status
     resource function post verify(NumberVerificationRequest payload, @http:Header {name: "x-correlator"} string? correlator)
             returns NumberVerification|error {
-
+        log:printInfo("received verification request", payload = payload, correlator = correlator);
         map<string|string[]> headers = {};
         if correlator is string {
             headers["x-correlator"] = [correlator];

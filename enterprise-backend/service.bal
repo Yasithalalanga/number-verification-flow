@@ -1,3 +1,4 @@
+import ballerina/log;
 import ballerina/http;
 
 # The URL of the security service provider
@@ -34,7 +35,7 @@ service / on new http:Listener(9093) {
     # + return - network verification with verification url and optional sessionId
     resource function post initiateRequest(NumberVerificationRequest payload)
             returns NetworkVerification|error {
-
+        log:printInfo("initiating number verification request for ", payload = payload);
         NetworkVerification|error response = securityServiceProvider->/initRequest.post(payload);
         return response;
     }
@@ -45,7 +46,7 @@ service / on new http:Listener(9093) {
     # + return - number verification with verification status
     resource function post checkResult(NumberVerificationRequest payload)
             returns NumberVerification|error {
-
+        log:printInfo("checking number verification result for ", payload = payload);
         NumberVerification|error response = securityServiceProvider->/verify.post(payload);
         return response;
     }

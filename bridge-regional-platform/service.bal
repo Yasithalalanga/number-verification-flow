@@ -1,3 +1,4 @@
+import ballerina/log;
 import ballerina/http;
 
 # The URL of the supplier BMO service
@@ -61,6 +62,7 @@ service /number\-verification/v0 on new http:Listener(9091) {
     resource function post verify(@http:Header {name: "x-correlator"} string? correlator, NumberVerificationRequest payload) returns
             OkNumberVerification|BadRequest|InternalServerError {
 
+        log:printInfo("number verification request received",   correlator = correlator, payload = payload);
         do {
             check validateNumberVerificationRequest(payload);
         } on fail error err {
