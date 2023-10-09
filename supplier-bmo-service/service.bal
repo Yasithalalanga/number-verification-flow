@@ -12,7 +12,7 @@ service / on new http:Listener(9090) {
     # 
     # + payload - number verification request with phone number
     # + return - network verification with verification url and optional sessionId/token
-    resource function post verify(@http:Payload NumberVerificationRequest payload) returns NetworkVerification {
+    resource function post verify(NumberVerificationRequest payload) returns NetworkVerification {
         log:printInfo("received number verification request", payload = payload);
         return {
             url: "/verifications/123",
@@ -38,7 +38,7 @@ service / on new http:Listener(9090) {
     # 
     # + payload - number verification request with phone number
     # + return - device verification state with verification status
-    resource function post verifyNumber(@http:Payload NumberVerificationRequest payload) returns NumberVerification {
+    resource function post verifyNumber(NumberVerificationRequest payload) returns NumberVerification {
         log:printInfo("received device verification request", payload = payload);
         return {
             devicePhoneNumberVerified: true

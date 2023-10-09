@@ -33,7 +33,7 @@ service / on new http:Listener(9093) {
     # 
     # + payload - number verification request with phone number
     # + return - network verification with verification url and optional sessionId
-    resource function post initiateRequest(@http:Payload NumberVerificationRequest payload)
+    resource function post initiateRequest(NumberVerificationRequest payload)
             returns NetworkVerification|error {
         log:printInfo("initiating number verification request for ", payload = payload);
         NetworkVerification|error response = securityServiceProvider->/initRequest.post(payload);
@@ -44,7 +44,7 @@ service / on new http:Listener(9093) {
     # 
     # + payload - number verification request with phone number
     # + return - number verification with verification status
-    resource function post checkResult(@http:Payload NumberVerificationRequest payload)
+    resource function post checkResult(NumberVerificationRequest payload)
             returns NumberVerification|error {
         log:printInfo("checking number verification result for ", payload = payload);
         NumberVerification|error response = securityServiceProvider->/verify.post(payload);
